@@ -41,10 +41,50 @@ public class FifteensModel {
 
 	// Shuffle the tiles in random order.
 	private void shuffle() {
+		do {
+			for (int r = 0; r < gameRows; r++) {
+				for (int c = 0; c < gameColumns; c++) {
+					swapTiles(r, c, (int) (Math.random() * gameRows), (int) (Math.random() * gameColumns));
+				}
+			}
+		} while (!canBeSolved());
+	}
+
+	// Check if current puzzle combination is solvable
+	private boolean canBeSolved() {
+		int tailsNumber = gameRows * gameColumns;
+		int[] arr = new int[tailsNumber];
+		int arrIndex = 0;
+		int blankRow = 0;
+		int inversions = 0;
 		for (int r = 0; r < gameRows; r++) {
 			for (int c = 0; c < gameColumns; c++) {
-				swapTiles(r, c, (int) (Math.random() * gameRows), (int) (Math.random() * gameColumns));
+				if (gameTiles[r][c].isEmpty()) {
+					arr[arrIndex] = 0;
+					blankRow = r;
+				} else {
+					arr[arrIndex] = Integer.parseInt(gameTiles[r][c].getText());
+				}
+				arrIndex++;
 			}
+		}
+
+		for (int i = 0; i < tailsNumber; i++) {
+			for (int j = i + 1; j < tailsNumber; j++) {
+				if (arr[i] > arr[j] && arr[j] != 0) {
+					inversions++;
+				}
+			}
+		}
+
+		if (gameColumns % 2 == 0) {
+			if (blankRow % 2 == 0) {
+				return inversions % 2 == 0;
+			} else {
+				return inversions % 2 != 0;
+			}
+		} else {
+			return inversions % 2 == 0;
 		}
 	}
 
