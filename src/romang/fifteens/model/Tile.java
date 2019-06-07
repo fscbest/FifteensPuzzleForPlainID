@@ -1,17 +1,10 @@
-/**
- * 
- */
 package romang.fifteens.model;
 
-/**
- * @author roman
- *
- */
+//Tile.java - Fifteen game's tile
+
 public class Tile {
 	private String text = "";
-	/**
-	 * @param text
-	 */
+
 	public Tile(String text) {
 		this.text = text;
 	}
